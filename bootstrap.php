@@ -16,5 +16,10 @@ $global_route      = "";
 
 require_once 'pages/auth.php';
 
-$global_alert_status = $_SESSION["global_alert_status"];
-$global_message      = $_SESSION["global_message"];
+if (isset($_SESSION["global_alert_status"])) {
+    $global_alert_status = $_SESSION["global_alert_status"];
+}
+
+if (isset($_SESSION["global_message"])) {
+    $global_message      = $_SESSION["global_message"];
+}
