@@ -8,8 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // If we have to provide a token
-    if ($CSRF_MANDATORY && empty($_POST['csrf_token'])) {
-        die("Hum, no CSRF token provided in the request !");
+    if (empty($_POST['csrf_token'])) {
+        die("No CSRF token provided in the request !");
     }
 
     else {
