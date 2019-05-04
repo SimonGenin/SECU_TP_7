@@ -6,6 +6,10 @@
 <main role="main" class="container">
     <h3>Add New User</h3>
     <form method="POST" action="index.php?page=user&action=save">
+
+        <!--   We're safe now :)   -->
+        <input type="hidden" name="csrf_token" value="<?=$_SESSION['csrf_token']?>">
+
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
@@ -20,7 +24,7 @@
                 <div class="form-group">
                     <label for="inputNewPassword2" class="sr-only">Permission</label>
                     <select class="form-control" id="status" name="permission">
-                        <?php 
+                        <?php
                         foreach (USER_PERMISSIONS as $key => $value):
                         echo "<option value=\"$key\">$value</option>\n";
                         endforeach;

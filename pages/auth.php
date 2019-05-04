@@ -1,4 +1,5 @@
 <?php
+
 defined('DEATHSTAR') or die('DARK SIDE OF THE FORCE');
 
 session_start();
@@ -39,6 +40,10 @@ function login($username, $password)
         $_SESSION['global_auth'] = true;
         $_SESSION['global_permission'] = $result["permission"];
 
+        // Add a token to the session
+        $csrf_token = new CSRFToken;
+        $csrf_token->store();
+
         return true;
     }
 
@@ -61,7 +66,7 @@ function logout()
  */
 function isAuthorised()
 {
-    if ($_SESSION["global_auth"] == true) {
+    if (isset($_SESSION["global_auth"]) && $_SESSION["global_auth"] == true) {
         return true;
     } else {
         return false;
@@ -91,6 +96,7 @@ switch ($action) {
         $global_route = "login";
         break;
     default:
+
         if (isAuthorised()) {
             $global_auth = true;
             $global_permission = $_SESSION["global_permission"];

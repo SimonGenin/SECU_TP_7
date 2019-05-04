@@ -6,6 +6,10 @@
 <main role="main" class="container">
     <h3>Change User Password</h3>
     <form enctype="multipart/form-data" method="POST" action="index.php?page=user&action=update">
+
+        <!--   We're safe now :)   -->
+        <input type="hidden" name="csrf_token" value="<?=$_SESSION['csrf_token']?>">
+
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
