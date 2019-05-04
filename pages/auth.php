@@ -5,6 +5,7 @@ session_start();
 
 /**
  * Allow user to login
+ *
  * @param $username
  * @param $password
  * @return `true` if credential is correct otherwise `false`
@@ -14,17 +15,30 @@ function login($username, $password)
     global $database;
 
     $password = md5($password);
-    $result = $database->select("SELECT username, permission, id
-                                FROM 
-                                    users
-                                WHERE 
-                                    username = \"$username\" and password = \"$password\"");
 
-    if (count($result) > 0) {
-        $_SESSION['global_id']         = $result[0]["id"];
-        $_SESSION['global_username']   = $result[0]["username"];
-        $_SESSION['global_auth']       = true;
-        $_SESSION['global_permission'] = $result[0]["permission"];
+    /**
+     * This new version first prepare the query and safely bind the variables
+     * later to it. It is a common pattern in php.
+     * The request is the  executed and we can access its results. If it was
+     * an unsuccessful connection, the result is "false".
+     */
+
+    $statement = $database->prepare("SELECT username, permission, id
+                FROM users
+                WHERE username = :username and password = :password");
+
+    $statement->bindValue(':username', $username);
+    $statement->bindValue(':password', $password);
+
+    $execution = $statement->execute();
+    $result = $execution->fetchArray();
+
+    if ($result) {
+        $_SESSION['global_id'] = $result["id"];
+        $_SESSION['global_username'] = $result["username"];
+        $_SESSION['global_auth'] = true;
+        $_SESSION['global_permission'] = $result["permission"];
+
         return true;
     }
 
