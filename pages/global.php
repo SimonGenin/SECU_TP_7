@@ -9,7 +9,7 @@ defined('DEATHSTAR') or die('DARK SIDE OF THE FORCE');
 function get($key)
 {
     if (isset($_GET[$key])) return $_GET[$key];
-    if (isset($_POST[$key])) return $_POST[$key];
+    if (isset($_POST[$key])) return htmlspecialchars($_POST[$key]);
     return null;
 }
 
