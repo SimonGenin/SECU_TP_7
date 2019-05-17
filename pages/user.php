@@ -22,13 +22,15 @@ function updatePassword($user_id, $new_password1, $new_password2)
 
         // Retrieve the file extension in lowercase
         $file_Extension = strtolower(pathinfo($_FILES['photo']['name'],PATHINFO_EXTENSION));
+        // Transform jpg to jpeg for the MIME test
+        if ($file_Extension === "jpg") $file_Extension = "jpeg";
         // Retrieve the MIME type of the file
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $file_MimeType = finfo_file($finfo, $_FILES["photo"]["tmp_name"]);
         finfo_close($finfo);
         // Check the file extension
         if (in_array($file_Extension, constant('FILE_EXTENSION_PHOTO')) &&
-            in_array($file_MimeType, constant('FILE_MIME_PHOTO'))) {
+            $file_MimeType === "image/".$file_Extension) {
 
             $tmp_path = $_FILES["photo"]["tmp_name"];
             $name     = $_FILES["photo"]["name"];
