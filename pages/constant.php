@@ -11,3 +11,6 @@ define('PLANET_STATUSES', array(0 => "INITIATED", 1 => "DESTRUCTING", 2 => "PART
 define('USER_PERMISSIONS', array("admin" => "ADMINISTRATOR", "user" => "USER"));
 
 define('PAGINATION_MAX_PER_PAGE', 10);
+
+define('FILE_EXTENSION_PHOTO', array(0 => "png", 1 => "jpg", 2 => "jpeg", 3 => "gif"));
+define('FILE_MIME_PHOTO', array(0 => "image/png", 1 => "image/jpeg", 2 => "image/gif"));

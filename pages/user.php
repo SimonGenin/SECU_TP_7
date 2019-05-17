@@ -19,11 +19,25 @@ function updatePassword($user_id, $new_password1, $new_password2)
     $password = md5($new_password1);
 
     if ($_FILES["photo"]["error"] == UPLOAD_ERR_OK) {
-        $tmp_path = $_FILES["photo"]["tmp_name"];
-        $name     = $_FILES["photo"]["name"];
-        $path     = $upload_dir . "/" . $name;
-        if (move_uploaded_file($tmp_path, $path))
-        $photo_yn = true;
+
+        // Retrieve the file extension in lowercase
+        $file_Extension = strtolower(pathinfo($_FILES['photo']['name'],PATHINFO_EXTENSION));
+        // Retrieve the MIME type of the file
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $file_MimeType = finfo_file($finfo, $_FILES["photo"]["tmp_name"]);
+        finfo_close($finfo);
+        // Check the file extension
+        if (in_array($file_Extension, constant('FILE_EXTENSION_PHOTO')) &&
+            in_array($file_MimeType, constant('FILE_MIME_PHOTO'))) {
+
+            $tmp_path = $_FILES["photo"]["tmp_name"];
+            $name     = $_FILES["photo"]["name"];
+            $path     = $upload_dir . "/" . $name;
+            if (move_uploaded_file($tmp_path, $path))
+                $photo_yn = true;
+
+        }
+
     }
 
     if ($photo_yn) {
